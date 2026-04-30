@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Telemetria from './pages/Telemetria'
 import CadastroMissoes from './pages/CadastroMissoes'
 import './styles/App.css'
+import { collection, getDocs, addDoc, doc, updateDoc, setDoc } from 'firebase/firestore'
+import { db } from '../firebase'
 
 //hardcodando as missoes para teste
 const missaoInicial = [
@@ -15,7 +17,29 @@ const missaoInicial = [
 
 function App() {
 
-  const [missoes, setMissao] = useState(missaoInicial)
+  const [missoes, setMissao] = useState([])
+  const [carregando, setCarregando] = useState(true)
+
+  useEffect(() => {
+    async function carregarMissoes(){
+      const coletando_missoes = await getDocs(collection(db, "missoes"))
+
+      if(coletando_missoes.empty){
+        
+        for(const missao of missaoInicial){
+          await setDoc(doc(db, "missoes", String(missao.id)), missao)
+        }
+        setMissao(missaoInicial)
+      } else {
+        const dados = coletando_missoes.docs.map(doc => ({ docId: doc.id, ...doc.data(), id: Number(doc.id) }))
+        setMissao(dados)
+      }
+      setCarregando(false)
+    }
+    carregarMissoes()
+  }, [])
+
+  if (carregando) return <div style={{ padding: '2rem', fontFamily: 'Courier New' }}>Carregando dados do banco...</div>
 
   return (
     <BrowserRouter>

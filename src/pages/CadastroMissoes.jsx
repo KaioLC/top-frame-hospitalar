@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import '../styles/Missoes.css'
-
+import { doc, updateDoc, setDoc } from 'firebase/firestore'
+import { db } from '../../firebase'
 
 const transicoes = {
   pendente: ["em_execucao", "cancelada"],
@@ -26,7 +27,7 @@ function CadastroMissoes({missoes, setMissoes}) {
     const filaOrdenada = [...missoes]
         .filter(m => m.status === "pendente")
         .sort((missao_a, missao_b) => missao_b.prioridade - missao_a.prioridade || missao_a.distancia - missao_b.distancia)
-    
+    console.log("filaOrdenada:", filaOrdenada)
     // coleta as que nao estão pendentes
     const outrasMissoes = missoes.filter(prev_m => prev_m.status !== "pendente")
 
@@ -49,7 +50,7 @@ function CadastroMissoes({missoes, setMissoes}) {
 
 
     // cadastrando a missao
-    function cadastrar(){
+    async function cadastrar(){
 
         //coletando mensagens de erro na validacao
         const mensagem = validar() 
@@ -67,6 +68,7 @@ function CadastroMissoes({missoes, setMissoes}) {
             status: "pendente"
         }
 
+        await setDoc(doc(db, "missoes", String(novoId)), nova)
         setMissoes(prev_missoes => [...prev_missoes, nova])
         setFormulario({
             origem: '', 
@@ -79,7 +81,8 @@ function CadastroMissoes({missoes, setMissoes}) {
     }
 
 
-    function mudarStatus(id, novoStatus) {
+    async function mudarStatus(id, novoStatus) {
+          console.log("id recebido:", id, "tipo:", typeof id)
         if (novoStatus === "em_execucao") {
             const jaTemEmExecucao = missoes.some(m => m.status === "em_execucao")
             if (jaTemEmExecucao) {
@@ -89,20 +92,28 @@ function CadastroMissoes({missoes, setMissoes}) {
         }
 
         if (novoStatus === "concluida") {
-            setMissoes(prev => {
-            const atualizadas = prev.map(m => m.id === id ? { ...m, status: "concluida" } : m)
-            const proxima = filaOrdenada[0]
+            console.log("tentando atualizar doc:", String(id))
+            await updateDoc(doc(db, "missoes", String(id)), { status: "concluida"})
+            const atualizadas = missoes.map(m => m.id === id ? { ...m, status: "concluida" } : m)
+
+            const proxima = [...atualizadas]
+                .filter(m => m.status === "pendente")
+                .sort((missao_a, missao_b) => missao_b.prioridade - missao_a.prioridade || missao_a.distancia - missao_b.distancia)[0]
+    
             if (proxima) {
-                return atualizadas.map(m => m.id === proxima.id ? { ...m, status: "em_execucao" } : m)
+                console.log("proxima missao id:", proxima.id, "tipo:", typeof proxima.id)
+                await updateDoc(doc(db, "missoes", String(proxima.id)), { status: "em_execucao"})
+                setMissoes(atualizadas.map(m => m.id === proxima.id ? { ...m, status: "em_execucao" } : m))
+            } else {
+                setMissoes(atualizadas)
             }
-            return atualizadas
-            })
             return
         }
-
+        console.log("tentando atualizar doc:", String(id))
+        await updateDoc(doc(db, "missoes", String(id)), {status: novoStatus})
         setMissoes(prev => prev.map(m => m.id === id ? { ...m, status: novoStatus } : m))
         }
-        
+
   return (
 
     <div className="missoes-container">
