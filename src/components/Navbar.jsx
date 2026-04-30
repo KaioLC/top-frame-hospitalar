@@ -9,6 +9,9 @@ function Navbar() {
       <NavLink to="/missoes" className={({ isActive }) => isActive ? 'aba aba-ativa' : 'aba'}>
         Missões
       </NavLink>
+      <NavLink to="registros" className={({ isActive }) => isActive ? 'aba aba-ativa' : 'aba'}>
+        Registros
+      </NavLink>
     </nav>
   )
 }

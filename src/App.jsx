@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Telemetria from './pages/Telemetria'
 import CadastroMissoes from './pages/CadastroMissoes'
+import Registros from './pages/Registros'
 import './styles/App.css'
 import { collection, getDocs, addDoc, doc, updateDoc, setDoc } from 'firebase/firestore'
 import { db } from '../firebase'
@@ -47,6 +48,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Telemetria missoes={missoes} />} />
         <Route path="/missoes" element={<CadastroMissoes missoes={missoes} setMissoes={setMissao}/>} />
+        <Route path="/registros" element={<Registros missoes={missoes}/>}/>
       </Routes>
     </BrowserRouter>
   )
