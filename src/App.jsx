@@ -31,7 +31,7 @@ function App() {
         }
         setMissao(missaoInicial)
       } else {
-        const dados = coletando_missoes.docs.map(doc => ({ docId: doc.id, ...doc.data() }))
+        const dados = coletando_missoes.docs.map(doc => ({ docId: doc.id, ...doc.data(), id: Number(doc.id) }))
         setMissao(dados)
       }
       setCarregando(false)
