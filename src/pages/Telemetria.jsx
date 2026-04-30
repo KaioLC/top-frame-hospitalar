@@ -16,7 +16,7 @@ function Telemetria({missoes}) {
   // gerar alertas
   const alertaBateria = telemetria.bateria < 20;
   const alertaLatencia = telemetria.latencia > 100;
-  const alertaStatusMissao = telemetria.statusMissao === missoes.some(m => m.status === "falha");
+  const alertaStatusMissao = missoes.some(m => m.status === "falha");
 
 
 
@@ -74,10 +74,10 @@ function Telemetria({missoes}) {
         <div className="card-telemetria">
           <div className="card-titulo">Missão em Curso</div>
           <div className="card-valor" style={{fontSize: '1.2rem'}}>
-            {missaoAtual.id || "Nenhuma missão ativa"}
+            {missaoAtual ? missaoAtual.id : "Nenhuma missão ativa"}
           </div>
-          <div className="status-missao">Distância: {missaoAtual.distancia}</div>
-          <div className="status-missao">Status: {missaoAtual.status}</div>
+          {missaoAtual && <div className="status-missao">Distância: {missaoAtual.distancia}m</div>}
+          {missaoAtual && <div className="status-missao">Status: {missaoAtual.status}</div>}
         </div>
 
       </div>
