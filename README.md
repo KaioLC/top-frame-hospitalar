@@ -107,6 +107,14 @@ Acesse http://localhost:5173
 4. **Esperado:** Um painel com o JSON de todas as missões finalizadas exibido na tela
 
 ---
+## Docker
+Cole no terminal
+```bash
+docker build -t top-frame-hospitalar .
+docker run -p 8080:80 top-frame-hospitalar
+```
+> AVISO: As variáveis de ambiente do Firebase 
+> precisam estar configuradas no .env antes do build.
 
 ## Observações
 
