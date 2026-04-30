@@ -29,6 +29,9 @@ node-v24.15.0-linux-x64/
 *.tar.xz
 npm_cache/
 npm_tmp/
+npm_global
+.npm_cache
+.npmrc
 
 # Secure firebase keys
 .env
