@@ -64,7 +64,55 @@ function App() {
           </div>
         </div>
 
+        {/* Sobre a latencia */}
+        <div className={`card-telemetria ${alertaLatencia ? 'latencia-alta': ''}`}>
+          <div className="card-titulo">Latência</div>
+          <div className="card-valor">{telemetria.latencia}ms</div>
+        </div>
+
+        {/* Sobre a missão atual */}
+        <div className="card-telemetria">
+          <div className="card-titulo">Missão em Curso</div>
+          <div className="card-valor" style={{fontSize: '1.2rem'}}>
+            {telemetria.missaoAtual || "Nenhuma missão ativa"}
+          </div>
+          <div className="status-missao">Status: {telemetria.statusRobo}</div>
+        </div>
+
       </div>
+
+      {/* Painel de alertas */}
+      <section className="active-alerts">
+        <h3>Alertas do Sistema</h3>
+        <div className="alertas">
+
+          {!alertaBateria && !alertaLatencia && <p className="sem-alertas"> Nenhum alerta detectado</p>}
+
+          {alertaBateria && (
+            <div className="tem-alerta">
+              <strong> Bateria está descarregando</strong>
+            </div>
+          )}
+
+          {alertaLatencia && (
+            <div className="tem-alerta">
+              <strong>Alta latência de rede</strong>
+            </div>
+          )}
+
+          {telemetria.bateria === 0 && (
+            <button className="button-emergencia" onClick={() => 
+              setTelemetria(prev => ({
+                ...prev,
+                bateria: 100,
+                statusRobo: "Disponivel"
+              }))
+            }>
+              REINICIALIZAR
+            </button>
+          )}
+        </div>
+      </section>
 
 
     </div>
