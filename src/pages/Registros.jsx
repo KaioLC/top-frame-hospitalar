@@ -1,39 +1,66 @@
 import { useState } from 'react'
 import '../styles/Missoes.css'
 
-function Historico({ missoes }) {
-  const [payloadVisivel, setPayloadVisivel] = useState(null)
+function Registros({ missoes }) {
+  const [jsonVisivel, setJsonVisivel] = useState(false)
 
   const historico = missoes
     .filter(m => ["concluida", "cancelada", "falha"].includes(m.status))
     .sort((a, b) => b.id - a.id)
 
-  function simularEnvio(missao) {
-    const payload = {
-      missao_id: missao.id,
-      status: missao.status,
-      origem: missao.origem,
-      destino: missao.destino,
-      tipo_carga: missao.tipoCarga,
-      prioridade: missao.prioridade,
-      distancia: missao.distancia,
-      timestamp: new Date().toISOString()
-    }
-    setPayloadVisivel(payloadVisivel?.missao_id === missao.id ? null : payload)
+  function simularEnvio() {
+    setJsonVisivel(prev => !prev)
+        console.log("Enviando dados para API hospitalar", {
+        timestamp: new Date().toISOString(),
+        total_missoes: historico.length,
+        missoes: historico.map(m => ({
+        missao_id: m.id,
+        status: m.status,
+        origem: m.origem,
+        destino: m.destino,
+        tipo_carga: m.tipoCarga,
+        prioridade: m.prioridade,
+        distancia: m.distancia,
+        }))
+    })
   }
 
   return (
-    <div className="historico-container missoes-container">
-      <section className="lista-section">
-        <h2 className="section-titulo">Histórico de Missões</h2>
+
+    <div className="missoes-container">
+
+        <section className="lista-section">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+            <h2 className="section-titulo" style={{ margin: 0 }}>Histórico de Missões</h2>
+            <button className="btn-cadastrar" onClick={simularEnvio} disabled={historico.length === 0}>
+            {jsonVisivel ? 'Fechar' : 'Enviar tudo para API'}
+            </button>
+        </div>
+
+        {jsonVisivel && (
+            <pre style={{ fontFamily: 'Courier New', fontSize: '12px', color: '#1a2636', background: '#f4f6f9', padding: '1rem', borderRadius: '8px', marginBottom: '1.25rem', overflowX: 'auto' }}>
+            {JSON.stringify({
+                timestamp: new Date().toISOString(),
+                total_missoes: historico.length,
+                missoes: historico.map(m => ({
+                missao_id: m.id,
+                status: m.status,
+                origem: m.origem,
+                destino: m.destino,
+                tipo_carga: m.tipoCarga,
+                prioridade: m.prioridade,
+                distancia: m.distancia,
+                }))
+            }, null, 2)}
+            </pre>
+        )}
+
         {historico.length === 0 ? (
-          <p className="sem-historico" style={{ fontSize: '13px', color: '#8a96a8' }}>
-            Nenhuma missão finalizada ainda.
-          </p>
+            <p style={{ fontSize: '13px', color: '#8a96a8' }}>Nenhuma missão finalizada ainda.</p>
         ) : (
-          <table className="missoes-tabela">
+            <table className="missoes-tabela">
             <thead>
-              <tr>
+                <tr>
                 <th>ID</th>
                 <th>Origem</th>
                 <th>Destino</th>
@@ -41,13 +68,11 @@ function Historico({ missoes }) {
                 <th>Prioridade</th>
                 <th>Distância</th>
                 <th>Status</th>
-                <th>API</th>
-              </tr>
+                </tr>
             </thead>
             <tbody>
-              {historico.map(m => (
-                <>
-                  <tr key={m.id}>
+                {historico.map(m => (
+                <tr key={m.id}>
                     <td>{m.id}</td>
                     <td>{m.origem}</td>
                     <td>{m.destino}</td>
@@ -55,32 +80,14 @@ function Historico({ missoes }) {
                     <td>{m.prioridade}</td>
                     <td>{m.distancia}m</td>
                     <td><span className={`badge badge-${m.status}`}>{m.status}</span></td>
-                    <td>
-                      <button
-                        className="btn-status btn-em_execucao"
-                        onClick={() => simularEnvio(m)}
-                      >
-                        {payloadVisivel?.missao_id === m.id ? 'fechar' : 'enviar para API'}
-                      </button>
-                    </td>
-                  </tr>
-                  {payloadVisivel?.missao_id === m.id && (
-                    <tr key={`payload-${m.id}`}>
-                      <td colSpan="8" style={{ background: '#f4f6f9', padding: '12px 16px' }}>
-                        <pre style={{ fontFamily: 'Courier New', fontSize: '12px', color: '#1a2636', margin: 0 }}>
-                          {JSON.stringify(payloadVisivel, null, 2)}
-                        </pre>
-                      </td>
-                    </tr>
-                  )}
-                </>
-              ))}
+                </tr>
+                ))}
             </tbody>
-          </table>
+            </table>
         )}
-      </section>
+        </section>
     </div>
   )
 }
 
-export default Historico
+export default Registros
