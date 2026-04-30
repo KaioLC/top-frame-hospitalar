@@ -2,14 +2,6 @@ import { useState } from 'react'
 import '../styles/Missoes.css'
 
 
-//hardcodando missoes para teste
-const missaoInicial = [
-  { id: 101, origem: "Farmacia", destino: "Enfermaria A", tipoCarga: "medicamento", prioridade: 2, distancia: 60, status: "pendente" },
-  { id: 102, origem: "Posto de Enfermagem", destino: "Laboratorio", tipoCarga: "amostra", prioridade: 3, distancia: 120, status: "pendente" },
-  { id: 103, origem: "Almoxarifado", destino: "Centro Cirurgico", tipoCarga: "material", prioridade: 1, distancia: 20, status: "em_execucao" },
-  { id: 104, origem: "Farmacia", destino: "UTI", tipoCarga: "medicamento", prioridade: 3, distancia: 90, status: "pendente" },
-]
-
 const transicoes = {
   pendente: ["em_execucao", "cancelada"],
   em_execucao: ["concluida", "falha"],
@@ -18,9 +10,7 @@ const transicoes = {
   cancelada: [],
 }
 
-function CadastroMissoes() {
-
-    const [missoes, setMissao] = useState(missaoInicial)
+function CadastroMissoes({missoes, setMissoes}) {
 
     const [formulario, setFormulario] = useState({
         origem: '',
@@ -77,7 +67,7 @@ function CadastroMissoes() {
             status: "pendente"
         }
 
-        setMissao(prev_missoes => [...prev_missoes, nova])
+        setMissoes(prev_missoes => [...prev_missoes, nova])
         setFormulario({
             origem: '', 
             destino: '', 
@@ -90,15 +80,19 @@ function CadastroMissoes() {
 
 
     function mudarStatus(id, novoStatus){
-        setMissao(prev_missoes => prev_missoes.map(m => m.id === id ? {...m, status: novoStatus} : m))
+        setMissoes(prev_missoes => prev_missoes.map(m => m.id === id ? {...m, status: novoStatus} : m))
     }
 
   return (
 
     <div className="missoes-container">
+
       <section className="form-section">
         <h2 className="section-titulo">Nova Missão</h2>
+
+
         <div className="form-grid">
+            {/* Campos de preenchimento do formulario */}
           {['origem', 'destino', 'tipoCarga', 'distancia'].map(campo => (
             <div className="form-grupo" key={campo}>
               <label className="form-label">{campo}</label>

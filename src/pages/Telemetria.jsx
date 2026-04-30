@@ -2,21 +2,21 @@ import { useState, useEffect } from 'react'
 
 import "../styles/Telemetria.css"
 
-function Telemetria() {
+function Telemetria({missoes}) {
 
   // atributos da telemetria
   const [telemetria, setTelemetria] = useState({
     bateria: 100,
     latencia: 15,
     statusRobo: "Disponivel",
-    statusMissao: null,
-    missaoAtual: null
   });
+
+  const missaoAtual = missoes.find(m => m.status === "em_execucao") || null
 
   // gerar alertas
   const alertaBateria = telemetria.bateria < 20;
   const alertaLatencia = telemetria.latencia > 100;
-  const alertaStatusMissao = telemetria.statusMissao === "falha";
+  const alertaStatusMissao = telemetria.statusMissao === missoes.some(m => m.status === "falha");
 
 
 
@@ -74,9 +74,10 @@ function Telemetria() {
         <div className="card-telemetria">
           <div className="card-titulo">Missão em Curso</div>
           <div className="card-valor" style={{fontSize: '1.2rem'}}>
-            {telemetria.missaoAtual || "Nenhuma missão ativa"}
+            {missaoAtual.id || "Nenhuma missão ativa"}
           </div>
-          <div className="status-missao">Status: {telemetria.statusRobo}</div>
+          <div className="status-missao">Distância: {missaoAtual.distancia}</div>
+          <div className="status-missao">Status: {missaoAtual.status}</div>
         </div>
 
       </div>
@@ -110,6 +111,12 @@ function Telemetria() {
             }>
               REINICIALIZAR
             </button>
+          )}
+
+          {alertaStatusMissao && (
+            <div className="tem-alerta">
+                <strong>Missão com falha detectada</strong>
+            </div>
           )}
         </div>
       </section>
