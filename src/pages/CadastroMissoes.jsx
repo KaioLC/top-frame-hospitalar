@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import '../styles/Missoes.css'
-
+import { doc, updateDoc, setDoc } from 'firebase/firestore'
+import { db } from '../../firebase'
 
 const transicoes = {
   pendente: ["em_execucao", "cancelada"],
@@ -102,7 +103,7 @@ function CadastroMissoes({missoes, setMissoes}) {
 
         setMissoes(prev => prev.map(m => m.id === id ? { ...m, status: novoStatus } : m))
         }
-        
+
   return (
 
     <div className="missoes-container">
