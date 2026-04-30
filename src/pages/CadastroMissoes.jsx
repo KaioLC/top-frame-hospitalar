@@ -79,10 +79,30 @@ function CadastroMissoes({missoes, setMissoes}) {
     }
 
 
-    function mudarStatus(id, novoStatus){
-        setMissoes(prev_missoes => prev_missoes.map(m => m.id === id ? {...m, status: novoStatus} : m))
-    }
+    function mudarStatus(id, novoStatus) {
+        if (novoStatus === "em_execucao") {
+            const jaTemEmExecucao = missoes.some(m => m.status === "em_execucao")
+            if (jaTemEmExecucao) {
+            alert("Já existe uma missão em execução")
+            return
+            }
+        }
 
+        if (novoStatus === "concluida") {
+            setMissoes(prev => {
+            const atualizadas = prev.map(m => m.id === id ? { ...m, status: "concluida" } : m)
+            const proxima = filaOrdenada[0]
+            if (proxima) {
+                return atualizadas.map(m => m.id === proxima.id ? { ...m, status: "em_execucao" } : m)
+            }
+            return atualizadas
+            })
+            return
+        }
+
+        setMissoes(prev => prev.map(m => m.id === id ? { ...m, status: novoStatus } : m))
+        }
+        
   return (
 
     <div className="missoes-container">
