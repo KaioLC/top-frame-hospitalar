@@ -1,0 +1,181 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f4f6f9;
+  font-family: 'Courier New', monospace;
+  color: #1a2636;
+}
+
+.telemetria-container {
+  min-height: 100vh;
+  background: #f4f6f9;
+  padding: 2rem;
+}
+
+.telemetria-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #dde3ec;
+}
+
+.telemetria-header h1 {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: #1a2636;
+}
+
+.tem-bateria {
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.tem-bateria.online {
+  background: #eaf7ef;
+  color: #1e6b3a;
+  border: 1px solid #a3d9b5;
+}
+
+.tem-bateria.offline {
+  background: #fdecea;
+  color: #a32d2d;
+  border: 1px solid #f5a8a8;
+}
+
+.telemetria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.card-telemetria {
+  background: #ffffff;
+  border: 1px solid #dde3ec;
+  border-radius: 10px;
+  padding: 1.25rem;
+  transition: border-color 0.3s;
+}
+
+.card-telemetria.bateria-critica {
+  border-color: #f5a8a8;
+  background: #fdecea;
+}
+
+.card-titulo {
+  font-size: 11px;
+  color: #8a96a8;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.card-valor {
+  font-size: 28px;
+  font-weight: 500;
+  color: #1a2636;
+  margin-bottom: 12px;
+}
+
+.card-telemetria.bateria-critica .card-valor {
+  color: #a32d2d;
+}
+
+.bateria-barra-container {
+  height: 6px;
+  background: #e8ecf2;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.bateria-barra-preencher {
+  height: 100%;
+  border-radius: 3px;
+  background: #2e9e5b;
+  transition: width 0.6s ease, background 0.3s;
+}
+
+.card-telemetria.bateria-critica .bateria-barra-preencher {
+  background: #e24b4a;
+}
+
+.card-telemetria.latencia-alta {
+  border-color: #f5c97a;
+  background: #fdf8ec;
+}
+
+.card-telemetria.latencia-alta .card-valor {
+  color: #854f0b;
+}
+
+.status-missao {
+  font-size: 12px;
+  color: #8a96a8;
+  margin-top: 8px;
+  letter-spacing: 0.05em;
+}
+
+.active-alerts {
+  margin-top: 2rem;
+  background: #ffffff;
+  border: 1px solid #dde3ec;
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.active-alerts h3 {
+  font-size: 11px;
+  color: #8a96a8;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.alertas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sem-alertas {
+  font-size: 13px;
+  color: #8a96a8;
+}
+
+.tem-alerta {
+  padding: 10px 14px;
+  background: #fdecea;
+  border: 1px solid #f5a8a8;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #a32d2d;
+}
+
+.button-emergencia {
+  margin-top: 8px;
+  padding: 10px 20px;
+  background: #a32d2d;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.button-emergencia:hover {
+  background: #7a1f1f;
+}
