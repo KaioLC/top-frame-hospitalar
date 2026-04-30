@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-
 import "../styles/Telemetria.css"
+import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { db } from '../../firebase'
 
 function Telemetria({missoes}) {
 
@@ -19,19 +20,31 @@ function Telemetria({missoes}) {
   const alertaStatusMissao = missoes.some(m => m.status === "falha");
 
 
+  useEffect(() => {
+    async function carregarTelemetria() {
+        const docRef = doc(db, "telemetria", "robo")
+        const snapshot = await getDoc(docRef)
+        if (snapshot.exists()) {
+        setTelemetria(snapshot.data())
+        }
+    }
+    carregarTelemetria()
+  }, [])
 
   useEffect(() => {
       
     // criando alternancia de latencia e descarregamento da bateria para gerar alertas
     const interval = setInterval(() => {
-      setTelemetria(prev => ({
-
+      setTelemetria(prev => {
+        const atualizada_telemetria = {
         ...prev, // copiando campos da telemetria antes de sobrescrever
-
         bateria: prev.bateria > 0 ? prev.bateria - 1 : 0,
         latencia: Math.floor(Math.random() * 140) + 10,
-
-    }));
+        ultimaAtualizacao: new Date().toLocaleTimeString('pt-BR')
+        }
+        setDoc(doc(db, "telemetria", "robo"), atualizada_telemetria)
+        return atualizada_telemetria
+    });
 
     }, 6000); // ocorre a cada 3segundos 
 
@@ -78,6 +91,7 @@ function Telemetria({missoes}) {
           </div>
           {missaoAtual && <div className="status-missao">Distância: {missaoAtual.distancia}m</div>}
           {missaoAtual && <div className="status-missao">Status: {missaoAtual.status}</div>}
+          <div className="status-missao">Última atualização: {telemetria.ultimaAtualizacao || "--:--:--"}</div>
         </div>
 
       </div>
