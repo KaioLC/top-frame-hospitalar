@@ -1,0 +1,245 @@
+.missoes-container {
+  padding: 2rem;
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
+/* formulário */
+.form-section {
+  background: #ffffff;
+  border: 1px solid #dde3ec;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.section-titulo {
+  font-size: 13px;
+  font-weight: 500;
+  color: #8a96a8;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 1.25rem;
+}
+
+.form-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 11px;
+  color: #8a96a8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.form-input {
+  padding: 8px 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #1a2636;
+  background: #f4f6f9;
+  border: 1px solid #dde3ec;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  border-color: #1a2636;
+}
+
+.form-input.input-erro {
+  border-color: #f5a8a8;
+  background: #fdecea;
+}
+
+.erro-msg {
+  font-size: 11px;
+  color: #a32d2d;
+}
+
+/* botões de prioridade */
+.prio-botoes {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-prio {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #dde3ec;
+  border-radius: 6px;
+  background: #f4f6f9;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: #8a96a8;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-prio:hover {
+  border-color: #1a2636;
+  color: #1a2636;
+}
+
+.btn-prio-ativo {
+  background: #1a2636;
+  color: #ffffff;
+  border-color: #1a2636;
+}
+
+.btn-cadastrar {
+  padding: 10px 24px;
+  background: #1a2636;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-cadastrar:hover {
+  background: #2d3f55;
+}
+
+/* tabela */
+.lista-section {
+  background: #ffffff;
+  border: 1px solid #dde3ec;
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.missoes-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-family: 'Courier New', monospace;
+}
+
+.missoes-tabela th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 500;
+  color: #8a96a8;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border-bottom: 1px solid #dde3ec;
+}
+
+.missoes-tabela td {
+  padding: 10px 12px;
+  color: #1a2636;
+  border-bottom: 1px solid #f4f6f9;
+}
+
+.missoes-tabela tr:last-child td {
+  border-bottom: none;
+}
+
+/* badges de status */
+.badge {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.badge-pendente {
+  background: #e6f1fb;
+  color: #185fa5;
+  border: 1px solid #b5d4f4;
+}
+
+.badge-em_execucao {
+  background: #faeeda;
+  color: #854f0b;
+  border: 1px solid #fac775;
+}
+
+.badge-concluida {
+  background: #eaf7ef;
+  color: #1e6b3a;
+  border: 1px solid #a3d9b5;
+}
+
+.badge-falha {
+  background: #fdecea;
+  color: #a32d2d;
+  border: 1px solid #f5a8a8;
+}
+
+.badge-cancelada {
+  background: #f1efe8;
+  color: #5f5e5a;
+  border: 1px solid #d3d1c7;
+}
+
+/* botões de ação */
+.acoes {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.btn-status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  border: 1px solid;
+}
+
+.btn-status:hover {
+  opacity: 0.8;
+}
+
+.btn-em_execucao {
+  background: #faeeda;
+  color: #854f0b;
+  border-color: #fac775;
+}
+
+.btn-concluida {
+  background: #eaf7ef;
+  color: #1e6b3a;
+  border-color: #a3d9b5;
+}
+
+.btn-falha {
+  background: #fdecea;
+  color: #a32d2d;
+  border-color: #f5a8a8;
+}
+
+.btn-cancelada {
+  background: #f1efe8;
+  color: #5f5e5a;
+  border-color: #d3d1c7;
+}
+
+.btn-pendente {
+  background: #e6f1fb;
+  color: #185fa5;
+  border-color: #b5d4f4;
+}
